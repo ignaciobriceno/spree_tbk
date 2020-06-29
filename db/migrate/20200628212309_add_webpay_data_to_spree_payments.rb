@@ -8,6 +8,6 @@ class AddWebpayDataToSpreePayments < SpreeExtension::Migration
   def down
     #remove_column :spree_payments, :webpay_params
     remove_column :spree_payments, :webpay_trx_id
-    execute 'DROP EXTENSION hstore'
+    #execute 'DROP EXTENSION hstore'
   end
 end
