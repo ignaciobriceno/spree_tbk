@@ -1,6 +1,6 @@
 module Spree
   module CheckoutControllerDecorator
-    def edit
+    def update
       @payment = @order.payments.order(:id).last
       
       if params[:state] == Spree::Gateway::SpreeTbk.STATE and @order.state == Spree::Gateway::SpreeTbk.STATE
