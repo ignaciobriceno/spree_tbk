@@ -3,7 +3,7 @@ module Spree
     def update
       @payment = @order.payments.order(:id).last
       
-      if params[:state] == Spree::Gateway::SpreeTbk.STATE and @order.state == Spree::Gateway::SpreeTbk.STATE
+      if params[:state] == 'payment' and @order.state == 'payment'
         payment_method     = @order.webpay_payment_method
         trx_id             = @payment.webpay_trx_id
         amount             = @order.webpay_amount
