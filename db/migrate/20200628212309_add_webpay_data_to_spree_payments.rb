@@ -1,6 +1,6 @@
 class AddWebpayDataToSpreePayments < SpreeExtension::Migration
   def up
-    execute 'CREATE EXTENSION IF NOT EXISTS hstore'
+    #execute 'CREATE EXTENSION IF NOT EXISTS hstore'
     #add_column :spree_payments, :webpay_params, :hstore
     add_column :spree_payments, :webpay_trx_id, :string
   end
