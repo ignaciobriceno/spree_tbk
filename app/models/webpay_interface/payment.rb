@@ -1,32 +1,30 @@
-module Webpay
+module WebpayInterface
   class Payment
-    # Public: Loads the configuration file tbk-webpay.yml
-    # If it's a rails application it will take the file from the config/ directory
-    #
-    # env - Environment.
-    #
-    # Returns a Config object.
-    def initialize env = nil
-      @config ||= Tbk::Webpay::Config.new
-      @webpay = Libwebpay.Webpay(@config)
+    def initialize
+      @webpay ||= Libwebpay.Webpay(WebpayInterface::Config.new)
     end
     
-    # Public: Initial communication from the application to Webpay servers
+    # Public: Initial communication from the application to Webpay
     #
     # tbk_total_price - integer - Total amount of the purchase. Last two digits are considered decimals.
     # tbk_order_id - integer - The purchase order id.
     # session_id - integer - The user session id.
     #
-    # Returns a REST response to be rendered by the application
-    def pay tbk_total_price, order_id, session_id
-      amount = tbk_total_price #reemplazar por metodo payment.amount
-      @webpay.getNormalTransaction
+    # Returns the following object:
+    # { "token" => token.to_s,
+    #   "url" => url.to_s,
+    #   "error_desc" => "TRX_OK" 
+    # }
+    def init_normal_transaction tbk_total_price, order_id, session_id
+      amount = tbk_total_price 
+      debugger
+      @webpay.NormalTransaction
       .initTransaction(
       tbk_total_price,
       order_id,
       session_id,
-      @config.urlReturn,
-      @config.urlFinal)
+      @webpay.config.urlReturn,
+      @webpay.config.urlFinal)
     end
     
     # Public: Confirmation callback executed from Webpay servers.
@@ -51,18 +49,14 @@ module Webpay
       end
       
       if params[:TBK_RESPUESTA] == "0"
-        
         Rails.logger.send("#{logfile}").info("[#{params[:TBK_ORDEN_COMPRA]} #{order.try(:state)}] Inicio")
-        
         mac_string.chop!
         File.open file_path, 'w+' do |file|
           file.write(mac_string)
         end
         
         Rails.logger.send("#{logfile}").info("[#{params[:TBK_ORDEN_COMPRA]} #{order.try(:state)}] Check Mac: #{mac_string}")
-        
         check_mac = system(tbk_mac_path.to_s, file_path.to_s)
-        
         accepted = true
         unless check_mac
           accepted = false
@@ -114,12 +108,10 @@ module Webpay
           Rails.logger.send("#{logfile}").info("[#{params[:TBK_ORDEN_COMPRA]} #{order.try(:state)}] Rejected ")
           return "RECHAZADO"
         end
-        
       else  # TBK_RESPUESTA != 0
         Rails.logger.send("#{logfile}").info("[#{params[:TBK_ORDEN_COMPRA]} #{order.try(:state)}] TBK_RESPUESTA = #{params[:TBK_RESPUESTA]} ")
         return "ACEPTADO"
       end
-      
     end
     
     private

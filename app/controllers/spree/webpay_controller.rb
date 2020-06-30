@@ -1,9 +1,9 @@
 module Spree
   class WebpayController < StoreController
-    skip_before_filter :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
     # helper 'spree/checkout'
 
-    before_filter :load_data, :except => [:failure]
+    before_action :load_data, :except => [:failure]
 
     # POST spree/webpay/confirmation
     def confirmation

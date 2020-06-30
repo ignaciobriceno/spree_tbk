@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'libwebpay', git: 'git@github.com:sbstn-jmnz/libwebpay.git'
+gem 'libwebpay', path: '../libwebpay'
 gem 'spree', github: 'spree/spree', branch: 'master'
 gem 'rails-controller-testing'
 

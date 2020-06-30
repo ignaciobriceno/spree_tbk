@@ -15,7 +15,7 @@ module Spree
     end
     
     def provider_class
-      Webpay::Payment
+      WebpayInterface::Payment
     end
     
     def provider
