@@ -4,13 +4,11 @@ module Spree
       @payment = @order.payments.order(:id).last
       
       if params[:state] == 'payment' and @order.state == 'payment'
-        payment_method     = @order.webpay_payment_method
-        trx_id             = @payment.webpay_trx_id
-        amount             = @order.webpay_amount
-        success_url        = webpay_success_url(:protocol => "http")
-        failure_url        = webpay_failure_url(:protocol => "http")
-        provider = payment_method.provider.new
-        response = provider.pay(amount, @order.number, trx_id, success_url, failure_url)
+        payment_method = @order.webpay_payment_method
+        trx_id         = @payment.webpay_trx_id
+        amount         = @order.webpay_amount
+        provider       = payment_method.provider.new
+        response       = provider.init_normal_transaction(amount, @order.number, trx_id)
         
         respond_to do |format|
           format.html { render text: response }
