@@ -13,40 +13,6 @@ module Spree
       "XXXX XXXX XXXX #{webpay_params['TBK_FINAL_NUMERO_TARJETA']}"
     end
     
-    def webpay_quota_type
-      case webpay_params["TBK_TIPO_PAGO"]
-      when "VN"
-        return "Sin Cuotas"
-      when "VC"
-        return "Cuotas Normales"
-      when "SI"
-        return "Sin Interés"
-      when "CI"
-        return "Cuotas Comercio"
-      when "VD"
-        return "Débito"
-      else
-        return webpay_params["TBK_TIPO_PAGO"]
-      end
-    end
-    
-    def webpay_payment_type
-      case webpay_params["TBK_TIPO_PAGO"]
-      when "VN"
-        return "Crédito"
-      when "VC"
-        return "Crédito"
-      when "SI"
-        return "Crédito"
-      when "CI"
-        return "Crédito"
-      when "VD"
-        return "Redcompra"
-      else
-        return webpay_params["TBK_TIPO_PAGO"]
-      end
-    end
-    
     private
     # Public: Setea un trx_id unico.
     #

@@ -1,12 +1,12 @@
 module WebpayInterface
   class Config
-    attr_accessor :commerce_code, 
-                  :environment,
-                  :private_key, 
-                  :public_cert, 
-                  :webpay_cert, 
-                  :urlReturn,
-                  :urlFinal
+    attr_reader :commerce_code, 
+                :environment,
+                :private_key, 
+                :public_cert, 
+                :webpay_cert, 
+                :urlReturn,
+                :urlFinal
     def initialize
       base_url = Rails.env.production? ? Rails.application.credentials.base_url : 'http://localhost:3000'
       @commerce_code = Rails.application.credentials.webpay_commerce_code
