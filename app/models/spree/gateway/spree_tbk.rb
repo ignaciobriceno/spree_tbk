@@ -1,7 +1,6 @@
 module Spree
-  # Gateway for Transbank Webpay Hosted Payment Pages solution
   class Gateway::SpreeTbk < Gateway
-    
+ 
     def self.STATE
       'webpay'
     end
@@ -35,6 +34,7 @@ module Spree
       gateway_order_id   = gateway_options[:order_id]
       order_number       = gateway_order_id.split('-').first
       payment_identifier = gateway_order_id.split('-').last
+      
       
       payment = Spree::Payment.find_by(identifier: payment_identifier)
       order   = payment.order

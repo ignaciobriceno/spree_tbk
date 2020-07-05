@@ -7,10 +7,15 @@ module Spree
       trx_result = ''
     end
     
+    def webpay_final_url
+      debugger
+    end
+
     private
     def load_data
       debugger
-      #@payment = Spree::Payment.find_by(params["token_ws"])
+      PaymentMethod.find_by_name('TransbankWebpay')
+      @payment = Spree::Payment.find_by(params["token_ws"])
     end
     
     def completion_route

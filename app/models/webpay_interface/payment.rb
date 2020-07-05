@@ -4,7 +4,7 @@ module WebpayInterface
       @webpay ||= Libwebpay.Webpay(WebpayInterface::Config.new)
     end
     
-    # Public: Initial communication from the application to Webpay
+    # Public: Initial communication from to Webpay
     #
     # tbk_total_price - integer - Total amount of the purchase. Last two digits are considered decimals.
     # tbk_order_id - integer - The purchase order id.
@@ -25,5 +25,9 @@ module WebpayInterface
       @webpay.config.urlReturn,
       @webpay.config.urlFinal)
     end
+
+    def transaction_result(token_ws)
+      @webpay.NormalTransaction.getTransactionResult(token_ws)
+    end 
   end
 end

@@ -30,7 +30,6 @@ module Spree
       end
     end
     
-    
     # Indica si la orden tiene asociado un pago por Webpay
     #
     # Return TrueClass||FalseClass instance
@@ -45,12 +44,8 @@ module Spree
       has_webpay_payment_method? ? payments.valid.from_webpay.order(:id).last.payment_method : nil
     end
     
-    # Entrega en valor total en un formato compatible con el estandar de Webpay
-    #
-    # Return String instance
-    def webpay_amount
-      # TODO - Ver que pasa cuando hay decimales
-      "#{total.to_i}00"
+    def confirmation_required?
+      true
     end
   end
 end
