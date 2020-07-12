@@ -38,12 +38,12 @@ module Spree
 
         else
           @payment.update(webpay_params: @result_trx['error_desc'])
-          @payment.update(description: "Pago con WebPay de: "+ current_user.client.full_name + " con errores")
+          @payment.update(description: "Pago con WebPay de: "+ current_order.email + " con errores")
           redirect_to webpay_error_path           
         end
         return          
       else
-        @payment.update(description: "Pago con WebPay de: "+ current_user.client.full_name + " con errores")
+        @payment.update(description: "Pago con WebPay de: "+ current_order.email + " con errores")
         @payment.destroy
         redirect_to webpay_nullify_path
       end    
