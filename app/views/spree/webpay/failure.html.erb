@@ -2,16 +2,16 @@
   <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @order } %>
 
   <div class="row" data-hook="checkout_header">
-    <h1 class="columns three alpha" data-hook="checkout_title"><%= Spree.t(:checkout) %></h1>
+    
     <div class="columns thirteen omega" data-hook="checkout_progress"><%= checkout_progress unless @order.blank? %></div>
   </div>
 
-  <div class="row" data-hook="checkout_content">
-    <div class="col-md-9" data-hook="webpay_field_wrapper">
+  <div class="text-center my-5" data-hook="checkout_content">
+    <div data-hook="webpay_field_wrapper">
         <fieldset id="billing" data-hook>
           <legend align="center"><%= Spree.t(:payment_information) %></legend>
 
-          <h1><%= "#{Spree.t(:webpay_payment_incompleted)} Nº #{params[:TBK_ORDEN_COMPRA]}" %></h1>
+          <h1 class="py-3"><%= "#{Spree.t(:webpay_payment_incompleted)}" %></h1>
           <hr class="clear" />
           <p>Las posibles causas de este rechazo son:</p>
 
@@ -31,7 +31,7 @@
         <hr class="clear" />
 
         <div class="form-buttons" data-hook="buttons">
-          <%= link_to Spree.t(:previous), checkout_state_path('payment'), :class => 'continue button primary' %>
+          <%= link_to "Intentar de nuevo", checkout_state_path('payment'), :class => 'continue button primary' %>
           <script>Spree.disableSaveOnClick();</script>
         </div>
     </div>

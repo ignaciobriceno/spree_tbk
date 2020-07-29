@@ -30,10 +30,14 @@ module Spree
           @payment.update(state: 'complete')
           @payment.update(webpay_params: webpay_data)
           @order.update(completed_at: Time.now)
+          @order.update(payment_state: 'paid')
+          @order.update(shipment_state: 'pending')
           #@payment.update(pay_date: Time.now)
           #@payment.update(verified: true)  
           response = Net::HTTP.post_form(URI(urlredirection.to_s), token_ws: params[:token_ws])
           flash[:order_completed] = true
+          #if existe chilexpress model?
+          #llamar metodo del modelo de chilexpress que haga el envío
           render 'spree/orders/show'
 
         else
@@ -44,14 +48,22 @@ module Spree
         return          
       else
         @payment = order.payments.last
-        @payment.update(cvv_response_message: "Pago con webpay de: " + order.email + " nulo") 
+        @payment.update(cvv_response_message: "Pago con webpay de: " + @order.email + " nulo") 
         @payment.destroy
         redirect_to webpay_nullify_path
       end    
     end
+
+    def webpay_error
+      render 'spree/webpay/failure'
+    end
+
+    def webpay_nullify_path
+      render 'spree/webpay/failure'
+    end
     
     def webpay_final_url
-      debugger
+      render 'spree/webpay/failure'
     end
 
     private
