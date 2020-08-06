@@ -26,6 +26,7 @@ module Spree
         vci               = @result_trx['vci'].to_s
 
         if responsecode == '0' 
+          puts 'Entre acá'
           tracking = ApiShipping.new(@order)
           order_shipping = @order.shipments.ids.join.to_i
 
@@ -38,7 +39,7 @@ module Spree
             Spree::Shipment.find_by(id: order_shipping).update(state: "pending")
             Spree::Order.find_by(id: @order.id).update(shipment_state: "pending")
           end
-          
+
           webpay_data = [state, accountingdate, cardnumber, amount, authorizationcode, paymenttypecode, responsecode, transactiondate, urlredirection, vci, sharesnumber].to_s
           @payment.update(state: 'complete')
           @payment.update(webpay_params: webpay_data)
