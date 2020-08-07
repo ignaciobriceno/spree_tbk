@@ -26,7 +26,6 @@ module Spree
         vci               = @result_trx['vci'].to_s
 
         if responsecode == '0' 
-          puts 'Entre acá'
           tracking = ApiShipping.new(@order)
           order_shipping = @order.shipments.ids.join.to_i
 
@@ -45,13 +44,11 @@ module Spree
           @payment.update(webpay_params: webpay_data)
           @order.update(completed_at: Time.now)
           @order.update(payment_state: 'paid')
-          @order.update(shipment_state: 'pending')
           #@payment.update(pay_date: Time.now)
           #@payment.update(verified: true)  
           response = Net::HTTP.post_form(URI(urlredirection.to_s), token_ws: params[:token_ws])
           flash[:order_completed] = true
-          #if existe chilexpress model?
-          #llamar metodo del modelo de chilexpress que haga el envío
+    
           render 'spree/orders/show'
 
         else
