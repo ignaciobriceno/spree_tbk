@@ -1,6 +1,18 @@
 module Spree
   module CheckoutControllerDecorator
     def update
+      if @order.state == "delivery"
+        order = ApiShipping.new(@order)
+        #pregunta si existe la comuna y que la direccion pertenesca a la comuna
+        if QuoteCost.exists?(name: order.shipping[:commune]) && ApiShipping.geo_reference(order.shipping) != false
+          true
+        else
+          flash[:error] = "No es posible enviar los elementos seleccionados a su dirección/Comuna de entrega. Por favor indica otra dirección/comuna de entrega."
+                    @order.state = "address"
+                    redirect_to(checkout_state_path(@order.state)) && return
+        end
+      end
+      
       if payment_valid_params? && paying_with_webpay?
         provider       = payment_method.provider.new
         amount         = @order.total.to_i
