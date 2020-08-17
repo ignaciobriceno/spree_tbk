@@ -34,9 +34,11 @@ module Spree
             Spree::Shipment.find_by(id: order_shipping).update(tracking: tracking_code)
             Spree::Shipment.find_by(id: order_shipping).update(state: "shipped")
             Spree::Order.find_by(id: @order.id).update(shipment_state: "shipped")
+            @order.update(shipment_state: 'shipped')
           else
             Spree::Shipment.find_by(id: order_shipping).update(state: "pending")
             Spree::Order.find_by(id: @order.id).update(shipment_state: "pending")
+            @order.update(shipment_state: 'pending')
           end
 
           webpay_data = [state, accountingdate, cardnumber, amount, authorizationcode, paymenttypecode, responsecode, transactiondate, urlredirection, vci, sharesnumber].to_s
