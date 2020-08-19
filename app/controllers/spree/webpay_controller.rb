@@ -32,9 +32,9 @@ module Spree
           if ApiShipping.geo_reference(tracking.shipping) != false
             tracking_code = ApiShipping.envio(tracking.shipping)
             Spree::Shipment.find_by(id: order_shipping).update(tracking: tracking_code)
-            Spree::Shipment.find_by(id: order_shipping).update(state: "shipped")
-            Spree::Order.find_by(id: @order.id).update(shipment_state: "shipped")
-            @order.update(shipment_state: 'shipped')
+            Spree::Shipment.find_by(id: order_shipping).update(state: "ready")
+            Spree::Order.find_by(id: @order.id).update(shipment_state: "ready")
+            @order.update(shipment_state: 'ready')
           else
             Spree::Shipment.find_by(id: order_shipping).update(state: "ready")
             Spree::Order.find_by(id: @order.id).update(shipment_state: "ready")
